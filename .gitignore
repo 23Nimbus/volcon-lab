@@ -1,0 +1,7 @@
+# VolCon-Lab ignore rules
+.env
+__pycache__/
+*.log
+reddit/
+data/
+fragility_data/
