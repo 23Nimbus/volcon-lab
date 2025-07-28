@@ -10,12 +10,7 @@ import matplotlib.pyplot as plt
 import argparse
 import json
 
-try:
-    from sentiment_score import classify_sentiment
-except ImportError:
-    def classify_sentiment(text):
-        # Dummy fallback: returns neutral polarity and label
-        return 0.0, 'neutral'
+from sentiment_score import classify_sentiment
 
 from functools import lru_cache
 
