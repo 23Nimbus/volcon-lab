@@ -15,9 +15,11 @@ class TestGEXParser(unittest.TestCase):
         self.assertTrue(res["fragile_containment"])
 
     def test_macro_overlay_detected(self):
-        text = "Markets are on edge ahead of the FOMC meeting"
+        text = "Markets are on edge ahead of the FoMC meeting"
         res = parse_gex_comment(text)
         self.assertTrue(res["macro_risk_overlay"])
+        self.assertFalse(res["gamma_break_near"])
+        self.assertFalse(res["fragile_containment"])
 
 if __name__ == '__main__':
     unittest.main()
