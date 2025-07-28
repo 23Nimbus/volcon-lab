@@ -680,3 +680,12 @@ Derivatives Research Unit\
 Internal Distribution Only\
 **Confidential – Do Not Circulate Outside Desk**
 
+
+## Testing
+
+Install dependencies and run the automated test suite using:
+
+```bash
+pip install -r requirements.txt
+pytest
+```
