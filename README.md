@@ -777,7 +777,7 @@ Retail coordination is not about brute force. It is about precision:
 
 Liberation is not guaranteed—but neither is suppression permanent.
 
-# Appendix J: VolCon Alpha Overlay  
+# Appendix G: VolCon Alpha Overlay  
 ## Harvest-to-Arm Dual Regime Plan  
 **Version 1.0 – Q3 2025**  
 Author: VolCon Lab
@@ -856,6 +856,109 @@ It is not a passive income strategy—it is a tactical overlay designed to neutr
 
 **Note:** This strategy should be monitored using VolCon-Lab score layers and signal thresholds. Engagement criteria must remain dynamic, responsive to real-time metrics, and adjusted based on synthetic collateral behavior, macro overlays, and sentiment regime transitions.
 
+
+---
+
+# Appendix H: Exit Without MOASS — Value Migration Beyond the Tape
+
+## Strategic Premise
+
+> GME the stock may remain suppressed within its containment architecture, but GME holders — through GameStop's digital primitives — may exit into parallel wealth systems, unlocking hypervalued digital assets that bypass legacy finance entirely.
+
+This is not the death of the thesis.  
+This is its migration.  
+The tape does not need to moon for the holders to ascend.
+
+---
+
+## I. The Containment Regime Holds
+
+Despite full float direct registration and repeated volatility compression cycles, GME's equity price may remain tethered by:
+
+- Market maker gamma containment
+- Off-exchange internalization
+- Broker-aligned option laddering
+- ATM dilution synchronization
+- Synthetic hedging proxies (e.g., BRK.A, XRT, SPX overlays)
+
+The **price remains a proxy**, not a truth.  
+The stock is a vessel — **not the endpoint**.
+
+---
+
+## II. GameStop as an On-Chain Cultural Protocol
+
+GameStop’s infrastructure includes:
+
+- NFT marketplace foundations (ZK rollup & L2 integrations)
+- Physical collectibles vaults and CGC/PSA integration
+- Retail IP partnerships (Pokémon, retro gaming, Web3-native creators)
+- Existing community and holder base that is identity-bound and ideologically persistent
+
+**By activating this stack**, GME can become a:
+
+- Digital asset issuance platform (tokenized slabs, NFTs)
+- Cultural DAO custodian
+- Volatility-backed protocol layer
+- Off-ramp from TradFi market containment to digitally sovereign capital structures
+
+---
+
+## III. Redemption Without Liquidation: DRS Utility Paths
+
+GME holders may not need to sell the equity to extract value.  
+Instead, they engage in **proof-of-hold monetization.**
+
+| Mechanism                          | Description                                                                 |
+|-----------------------------------|-----------------------------------------------------------------------------|
+| DRS Proof-of-Hold Airdrops        | Access to vault tokens, DAO votes, NFT mints based on time-in-hold         |
+| Token-Gated GameFi Access         | Early access to nostalgia-linked titles, protocols, or remake IP           |
+| Vaulted NFT Market Participation  | Staked access to real-world collectible markets with tokenized interfaces  |
+| Equity-to-Identity Binding        | DRS-linked ENS or NFT profiles unlocking gated governance or staking rights|
+
+This creates **value migration channels** that are **de-linked from share price**.
+
+---
+
+## IV. Web3 Rich, Legacy Poor
+
+A new class of capital emerges:
+
+- Does not show up on TradFi brokerage statements
+- May never sell GME into fiat
+- Cannot be margin-called, halted, or routed through PFOF
+
+But they may:
+
+- Govern decentralized collectible and options protocols
+- Back token issuance via equity conviction
+- Seed parallel rails for cultural asset speculation
+
+> These are not traders.  
+> They are **volatility citizens**, building a sovereign ecosystem from below the tape.
+
+---
+
+## V. VolCon Surveillance Protocol Adjustment
+
+To capture this shift, VolCon overlays must evolve to monitor:
+
+- Token launch velocity linked to DRS-linked assets
+- NFT participation rates correlated to known float concentrations
+- Sentiment regime shift from “MOASS” to “migration” or “off-ramp”
+- Smart contract engagement by self-identified GME holders (via NFT, ENS, or wallet tags)
+
+The **breakout may never happen in the chart.  
+But it will appear in the chain.**
+
+---
+
+## VI. Strategic Conclusion
+
+> GME’s chart may remain flat.  
+> But the holders are already climbing.  
+> They do not need permission to exit.  
+> They are building the door themselves — into a sovereign, digital volatility regime.
 
 ---
 
