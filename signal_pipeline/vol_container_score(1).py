@@ -112,9 +112,40 @@ def get_volume_ratio(ticker, retries=3, delay=2):
             time.sleep(delay)
     return np.nan
 
-def simulate_oi_concentration():
-    # Placeholder until OI endpoint is available
-    return 0.6  # Assume 60% OI within ±5% of spot
+@lru_cache(maxsize=32)
+def simulate_oi_concentration(ticker, retries=3, delay=2):
+    """Return the percent of open interest within ±5% of spot price.
+
+    The function fetches the current option chain via ``yfinance`` and
+    calculates the proportion of total open interest whose strikes lie within
+    a 5% band around the latest spot price.  If data cannot be retrieved the
+    function returns ``np.nan``.
+    """
+    for attempt in range(retries):
+        try:
+            tkr = yf.Ticker(ticker)
+            spot = tkr.history(period="1d")['Close'].iloc[-1]
+            expirations = tkr.options
+            if not expirations:
+                return np.nan
+
+            total_oi = 0
+            near_oi = 0
+
+            # Use the nearest expiration to approximate current OI structure
+            exp = expirations[0]
+            chain = tkr.option_chain(exp)
+            df = pd.concat([chain.calls, chain.puts], ignore_index=True)
+            df['openInterest'] = df['openInterest'].fillna(0)
+            total_oi = df['openInterest'].sum()
+            band_mask = (df['strike'] >= spot * 0.95) & (df['strike'] <= spot * 1.05)
+            near_oi = df.loc[band_mask, 'openInterest'].sum()
+
+            return near_oi / total_oi if total_oi > 0 else np.nan
+        except Exception as e:
+            print(f"OI concentration error for {ticker} (attempt {attempt+1}): {e}")
+            time.sleep(delay)
+    return np.nan
 
 def simulate_sentiment_score():
     # Load sample WSB posts and simulate scores
@@ -150,7 +181,7 @@ def run_score(ticker='GME', weights=None):
     rv = get_realized_vol(ticker)
     rv_iv_spread = rv - current_iv if not np.isnan(rv) and not np.isnan(current_iv) else np.nan
     ov_ratio = get_volume_ratio(ticker)
-    oi_concentration = simulate_oi_concentration()
+    oi_concentration = simulate_oi_concentration(ticker)
     sentiment_score = simulate_sentiment_score()
 
     # Use custom weights if provided
