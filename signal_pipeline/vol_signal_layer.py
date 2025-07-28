@@ -173,7 +173,8 @@ def launch_dashboard(ticker=None, date_range=None):
     try:
         import streamlit.web.cli as stcli
         import sys
-        args = ["streamlit", "run", "streamlit_signal_dashboard.py"]
+        dashboard_path = os.path.join(os.path.dirname(__file__), "streamlit_signal_dashboard.py")
+        args = ["streamlit", "run", dashboard_path]
         if ticker:
             args += ["--", f"--ticker={ticker}"]
         if date_range:
