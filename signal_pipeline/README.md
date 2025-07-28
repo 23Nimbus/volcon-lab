@@ -32,6 +32,14 @@ streamlit run backtest_runner.py
 ```
 
 This will visualize the historical Vol Container Scores.
+## Running Tests
+
+Install dependencies and execute the test suite with:
+
+```bash
+pip install -r requirements.txt
+pytest
+```
 
 ---
 

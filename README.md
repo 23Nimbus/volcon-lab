@@ -38,3 +38,18 @@ streamlit run signal_pipeline/backtest_runner.py
 ```
 
 This launches an interactive dashboard to review the Vol Container Score timeline.
+codex/add-test-running-instructions-to-readme
+
+## Running Tests
+
+To run the unit tests, first install the dependencies and then execute `pytest`:
+
+```bash
+pip install -r requirements.txt
+pytest
+```
+
+=======
+main
+
+
