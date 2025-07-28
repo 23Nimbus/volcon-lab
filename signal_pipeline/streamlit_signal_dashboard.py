@@ -3,6 +3,7 @@ import pandas as pd
 import json
 import os
 from datetime import date
+import matplotlib.pyplot as plt
 
 # Load today's alert file
 def load_alerts():
@@ -103,9 +104,18 @@ else:
         st.write("**Alert Level Counts:**")
         st.bar_chart(filtered_df['alert_level'].value_counts())
         st.write("**IV-RV Spread Distribution:**")
-        st.hist(filtered_df['rv_iv_spread'], bins=20)
+        fig_iv, ax_iv = plt.subplots()
+        ax_iv.hist(filtered_df['rv_iv_spread'].dropna(), bins=20, color='skyblue', edgecolor='black')
+        ax_iv.set_xlabel('RV-IV Spread')
+        ax_iv.set_ylabel('Frequency')
+        st.pyplot(fig_iv)
+
         st.write("**Sentiment Score Distribution:**")
-        st.hist(filtered_df['sentiment_score'], bins=20)
+        fig_sent, ax_sent = plt.subplots()
+        ax_sent.hist(filtered_df['sentiment_score'].dropna(), bins=20, color='salmon', edgecolor='black')
+        ax_sent.set_xlabel('Sentiment Score')
+        ax_sent.set_ylabel('Frequency')
+        st.pyplot(fig_sent)
         # Rolling volatility
         if 'signal_score' in filtered_df.columns:
             vol_window = st.number_input("Rolling Volatility Window (days)", min_value=2, max_value=30, value=5)
