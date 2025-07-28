@@ -1,5 +1,7 @@
 # VolCon-Lab ignore rules
+# Local environment files should not be committed
 .env
+signal_pipeline/.env
 __pycache__/
 *.log
 reddit/
