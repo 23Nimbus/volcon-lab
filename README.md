@@ -433,6 +433,9 @@ Construct a real-time **Vol Container Dashboard**, aggregating metrics from foru
 
 ### "They All Know There's a Clock on This"
 
+This is a closed ecosystem with a decaying half-life.
+Every bond offering, every OTM ladder, every dark pool absorption is an attempt to delay the inevitable rupture—but also a signal that time is running out.
+
 Volatility containment regimes are not infinite. They function like pressurized systems under thermal constraint: the longer volatility is suppressed, the more energy accumulates within. What separates the current containment structure from ordinary sideways markets is that **every participant involved is acting as if time is a critical variable**—not just price.
 
 We refer to this as **temporal awareness** within the VolCon framework. It reflects the reality that institutional desks, corporate issuers, and high-signal retail cohorts all understand the volatility regime has an expiration point—even if its exact moment of failure is uncertain.
