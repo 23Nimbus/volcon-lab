@@ -323,21 +323,52 @@ def export_excel(ticker):
     print(f"Exported to {excel_path} and summary stats to {stats_path}")
 
 def fetch_news_sentiment(ticker):
-    # Placeholder for real-time news sentiment API integration
-    # Example: Use Finnhub or other API
+    """Fetch recent news and compute average sentiment polarity.
+
+    The function attempts to use Finnhub if ``FINNHUB_API_KEY`` is set or
+    NewsAPI if ``NEWSAPI_KEY`` is available. Headlines are classified with
+    ``classify_sentiment`` and the mean polarity score is returned. ``None`` is
+    returned on failure or if no headlines are retrieved.
+    """
     try:
         import requests
-        api_key = os.environ.get('FINNHUB_API_KEY', '')
-        if not api_key:
-            print("No FINNHUB_API_KEY set in environment.")
+        import datetime as _dt
+
+        headlines = []
+        if os.environ.get("FINNHUB_API_KEY"):
+            key = os.environ["FINNHUB_API_KEY"]
+            to_d = _dt.date.today()
+            from_d = to_d - _dt.timedelta(days=7)
+            url = (
+                f"https://finnhub.io/api/v1/company-news?symbol={ticker}&from={from_d}"
+                f"&to={to_d}&token={key}"
+            )
+            resp = requests.get(url, timeout=10)
+            resp.raise_for_status()
+            articles = resp.json()
+            headlines = [a.get("headline", "") for a in articles]
+        elif os.environ.get("NEWSAPI_KEY"):
+            key = os.environ["NEWSAPI_KEY"]
+            url = (
+                f"https://newsapi.org/v2/everything?q={ticker}&pageSize=10"
+                f"&sortBy=publishedAt&apiKey={key}"
+            )
+            resp = requests.get(url, timeout=10)
+            resp.raise_for_status()
+            data = resp.json()
+            headlines = [a.get("title", "") for a in data.get("articles", [])]
+        else:
+            print("No FINNHUB_API_KEY or NEWSAPI_KEY set in environment.")
             return None
-        url = f"https://finnhub.io/api/v1/news?category=general&token={api_key}"
-        resp = requests.get(url)
-        news = resp.json()
-        # Simulate sentiment extraction
-        sentiments = [classify_sentiment(item['headline'])[0] for item in news[:10]]
-        avg_sentiment = np.mean(sentiments)
-        print(f"Avg news sentiment for {ticker}: {avg_sentiment}")
+
+        if not headlines:
+            print(f"No headlines fetched for {ticker}.")
+            return None
+
+        sentiments = [classify_sentiment(h)[0] for h in headlines[:10]]
+        avg_sentiment = float(np.mean(sentiments)) if sentiments else None
+        if avg_sentiment is not None:
+            print(f"Avg news sentiment for {ticker}: {avg_sentiment}")
         return avg_sentiment
     except Exception as e:
         print(f"News sentiment fetch error: {e}")
