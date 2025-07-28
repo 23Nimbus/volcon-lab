@@ -24,7 +24,8 @@ def load_config():
         "TICKERS": os.environ.get("TICKERS", "GME,AMC").split(","),
         "ETF_TICKER": os.environ.get("ETF_TICKER", "XRT"),
         "REGSHO_LIST_URL": os.environ.get("REGSHO_LIST_URL", "https://example.com/regsho/latest.txt"),
-        "SENTIMENT_PATH_TEMPLATE": os.environ.get("SENTIMENT_PATH_TEMPLATE", "reddit/{date}/posts.json"),
+        # Each ticker has its own reddit dump folder by default
+        "SENTIMENT_PATH_TEMPLATE": os.environ.get("SENTIMENT_PATH_TEMPLATE", "reddit/{ticker}/{date}/posts.json"),
         "ALERTS_DIR": os.environ.get("ALERTS_DIR", "alerts"),
     }
     # Optionally load from config.json
@@ -37,11 +38,11 @@ def load_config():
             logging.warning(f"Failed to load config.json: {e}")
     return config
 
-def load_sentiment_score(ticker: str = "GME", date: datetime.date = None, sentiment_path_template: str = "reddit/{date}/posts.json") -> float:
+def load_sentiment_score(ticker: str = "GME", date: datetime.date = None, sentiment_path_template: str = "reddit/{ticker}/{date}/posts.json") -> float:
     """Load sentiment score for a ticker from JSON file. Uses keyword and TextBlob scoring if available."""
     if date is None:
         date = datetime.date.today()
-    path = sentiment_path_template.format(date=date)
+    path = sentiment_path_template.format(ticker=ticker, date=date)
     try:
         with open(path) as f:
             data = json.load(f)
@@ -134,7 +135,7 @@ def scan_volatility_signals(
 
         gex_flags = {"gamma_break_near": False, "fragile_containment": False, "macro_risk_overlay": False}
         try:
-            with open(sentiment_path_template.format(date=date)) as f:
+            with open(sentiment_path_template.format(ticker=ticker, date=date)) as f:
                 posts = json.load(f)
             for post in posts:
                 comment = (post.get('title', '') + ' ' + post.get('selftext', '')).lower()
