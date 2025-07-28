@@ -3,6 +3,7 @@ import pandas as pd
 import json
 import os
 from datetime import date
+from signal_pipeline.alert_utils import classify_alert_level
 
 # Load today's alert file
 def load_alerts():
@@ -62,9 +63,7 @@ else:
         return score + score_modifier
 
     df["signal_score"] = df.apply(compute_threat_level, axis=1)
-    df["alert_level"] = df["signal_score"].apply(
-        lambda x: "🟢 Watch" if x <= 1 else "🟡 Tension" if x == 2 else "🔴 Breakout Potential"
-    )
+    df["alert_level"] = df["signal_score"].apply(classify_alert_level)
 
     # Filtering
     filtered_df = df.copy()
