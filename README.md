@@ -764,7 +764,7 @@ While retail investors have unwittingly become volatility providers within the c
 - **Promote gamma-risk awareness** in memes and posts to confuse suppression setups.
 - **Synchronize vol-breaking trades** around catalysts like earnings or macro releases.
 
-> ⚠️ *Core Insight:* Containment relies on retail being predictable. Once strike behavior, sentiment language, and vol positioning shift in unison, **market makers must hedge**—not harvest.
+> *Core Insight:* Containment relies on retail being predictable. Once strike behavior, sentiment language, and vol positioning shift in unison, **market makers must hedge**—not harvest.
 
 ---
 
@@ -776,6 +776,85 @@ Retail coordination is not about brute force. It is about precision:
 - **How to act:** Together, but unpredictably.
 
 Liberation is not guaranteed—but neither is suppression permanent.
+
+# Appendix J: VolCon Alpha Overlay  
+## Harvest-to-Arm Dual Regime Plan  
+**Version 1.0 – Q3 2025**  
+Author: VolCon Lab
+
+---
+
+### Strategy Objective
+
+This tactical overlay utilizes short-volatility containment mechanics (e.g., cash-secured puts and covered calls) to generate income exclusively during periods of confirmed regime stability. That income is reallocated into asymmetric long-volatility structures (e.g., LEAPs, straddles) to prepare for systemic breakout scenarios.
+
+The objective is to:
+- Generate yield when volatility suppression is strong
+- Withhold short-vol supply when regime fragility increases
+- Reallocate proceeds to long-vol strategies aligned with breakout probability
+- Avoid reinforcing containment behavior at inflection levels
+
+---
+
+### Capital Allocation Model
+
+| Allocation Type                   | Target % of Portfolio | Purpose                                        |
+|----------------------------------|------------------------|------------------------------------------------|
+| Theta Farming (CSPs, CCs)        | 30%                    | Income generation in stable containment       |
+| Long Straddles (IV < RV)         | 10%                    | Catalyst exploitation (earnings, macro)       |
+| Deep OTM LEAPs                   | 20%                    | Long-dated asymmetric breakout positioning    |
+| Cash Reserve / Dry Powder        | 20%                    | Reactive capital for volatility dislocations  |
+| Long Gamma Overlays (Inflection) | 20%                    | Exposure during regime transition events      |
+
+---
+
+### Regime Filters
+
+#### Short-Vol Mode: Conditions for Engagement
+Short-volatility strategies may be employed only when the following conditions are met:
+- Vol Container Score > 65
+- Implied Volatility Rank < 35
+- Dark Pool Volume exceeds 60% of total market volume
+- Retail sentiment analysis indicates suppression-phase language (e.g., "renting shares", "steady income")
+
+#### Transition Mode: Volatility Asymmetry Accumulation
+Begin building long-volatility positions under the following criteria:
+- Vol Container Score falls below 50
+- IV Rank remains suppressed (<35)
+- Realized Volatility exceeds Implied Volatility by >0.02
+- Open Interest in far OTM call strikes increases 3x within 48 hours
+
+#### Shutdown Mode: Exit Suppression Participation
+All short-vol trades must cease immediately if:
+- Vol Container Score falls below 40
+- Sentiment language includes terms such as "manipulated", "bagholding"
+- Macro catalysts are present (e.g., FOMC meeting, CPI release, major earnings week)
+
+---
+
+### Tactical Rules
+
+1. Do not write CSPs or CCs within gamma ramp or pinning zones (e.g., GME $24–$25).
+2. Engage in short-volatility only when containment is structurally stable (as per regime filter thresholds).
+3. Reinvest short-vol income into long-vol asymmetry through 12–24 month LEAPs, 30–50% OTM.
+4. Maintain dry powder to opportunistically acquire volatility into emerging stress.
+5. Cease containment participation when collateral stress indicators activate (e.g., BRK.A volume >2x 5D average, XRT redemption flags).
+6. Deploy straddles and condors only when IV is underpricing anticipated movement near catalysts.
+
+---
+
+### Strategy Philosophy
+
+This dual-mode plan is designed to provide:
+- Conditional yield exposure during regime certainty
+- Structural preparation for reflexive volatility dislocations
+- A capital-efficient framework to monetize containment while seeding breakout opportunity
+
+It is not a passive income strategy—it is a tactical overlay designed to neutralize regime risk and exploit structural inflection.
+
+---
+
+**Note:** This strategy should be monitored using VolCon-Lab score layers and signal thresholds. Engagement criteria must remain dynamic, responsive to real-time metrics, and adjusted based on synthetic collateral behavior, macro overlays, and sentiment regime transitions.
 
 
 ---
