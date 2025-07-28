@@ -174,7 +174,19 @@ def calculate_score(iv_rank, oi_concentration, sentiment_score, ov_ratio, rv_iv_
         0.20 * rv_iv_spread
     )
 
-def run_score(ticker='GME', weights=None):
+def run_score(ticker='GME', weights=None, config=None):
+    """Calculate and persist a single day's Vol Container Score.
+
+    Parameters
+    ----------
+    ticker : str
+        Symbol to score.
+    weights : dict, optional
+        Optional override for feature weights.
+    config : dict, optional
+        Placeholder for future configuration options. Currently unused.
+    """
+
     current_iv = get_iv_proxy(ticker)
     iv_history = get_iv_history_proxy(ticker)
     iv_rank = calculate_iv_rank(current_iv, iv_history) if len(iv_history) > 0 and not np.isnan(current_iv) else np.nan
