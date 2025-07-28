@@ -3,6 +3,8 @@
 .env
 signal_pipeline/.env
 __pycache__/
+**/__pycache__/
+**/*.pyc
 *.log
 reddit/
 data/
