@@ -9,6 +9,7 @@ import logging
 import argparse
 import sys
 from typing import List, Dict, Tuple
+from gex_parser import parse_gex_comment
 try:
     from textblob import TextBlob
     TEXTBLOB_AVAILABLE = True
@@ -131,6 +132,19 @@ def scan_volatility_signals(
         iv_rank = float(np.random.uniform(0.1, 0.3))  # Placeholder
         sentiment = load_sentiment_score(ticker, date, sentiment_path_template)
 
+        gex_flags = {"gamma_break_near": False, "fragile_containment": False, "macro_risk_overlay": False}
+        try:
+            with open(sentiment_path_template.format(date=date)) as f:
+                posts = json.load(f)
+            for post in posts:
+                comment = (post.get('title', '') + ' ' + post.get('selftext', '')).lower()
+                parsed = parse_gex_comment(comment)
+                for k, v in parsed.items():
+                    if v:
+                        gex_flags[k] = True
+        except Exception as e:
+            logging.warning(f"GEX comment parse failed for {ticker}: {e}")
+
         regsho_flag = check_regsho_etf(regsho_list_url)
 
         signal_flags = {
@@ -142,6 +156,9 @@ def scan_volatility_signals(
             "regsho_flag": regsho_flag,
             "iv_break": rv_iv_spread > 0.02,
             "sentiment_disruption": sentiment < 0.4,
+            "gamma_break_warning": gex_flags["gamma_break_near"],
+            "containment_fragile": gex_flags["fragile_containment"],
+            "macro_vol_risk": gex_flags["macro_risk_overlay"],
         }
 
         results.append(signal_flags)
@@ -179,7 +196,14 @@ def scan_volatility_signals(
     # Print summary stats
     logging.info(f"Summary for {date}:")
     for r in results:
-        logging.info(f"{r['ticker']}: IV Rank={r['iv_rank']:.2f}, RV-IV Spread={r['rv_iv_spread']:.4f}, Sentiment={r['sentiment_score']:.2f}, IV Break={r['iv_break']}, Sentiment Disruption={r['sentiment_disruption']}, RegSHO={r['regsho_flag']}, XRT SI Spike={r['xrt_si_spike']}, XRT Redemptions={r['xrt_redemptions']}")
+        logging.info(
+            f"{r['ticker']}: IV Rank={r['iv_rank']:.2f}, RV-IV Spread={r['rv_iv_spread']:.4f}, "
+            f"Sentiment={r['sentiment_score']:.2f}, IV Break={r['iv_break']}, "
+            f"Sentiment Disruption={r['sentiment_disruption']}, RegSHO={r['regsho_flag']}, "
+            f"XRT SI Spike={r['xrt_si_spike']}, XRT Redemptions={r['xrt_redemptions']}, "
+            f"Gamma Break={r['gamma_break_warning']}, Fragile={r['containment_fragile']}, "
+            f"Macro Risk={r['macro_vol_risk']}"
+        )
 
     return results
 
