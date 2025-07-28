@@ -53,7 +53,13 @@ else:
         if row.get('xrt_si_spike'): score += 1
         if row.get('xrt_redemptions'): score += 1
         if row.get('regsho_flag'): score += 1
-        return score
+        if row.get('gamma_break_warning'): score += 1
+        if row.get('containment_fragile'): score += 1
+        if row.get('macro_vol_risk'): score += 1
+        score_modifier = 0
+        if row.get('gamma_break_warning') and row.get('containment_fragile'):
+            score_modifier += 0.1
+        return score + score_modifier
 
     df["signal_score"] = df.apply(compute_threat_level, axis=1)
     df["alert_level"] = df["signal_score"].apply(
@@ -95,6 +101,12 @@ else:
             - 🧠 Sentiment Score: `{row['sentiment_score']:.2f}`
             - 🔻 RegSHO: `{row['regsho_flag']}`, ETF Compression: `{row['xrt_si_spike']}` / `{row['xrt_redemptions']}`
             """)
+            if row.get('gamma_break_warning'):
+                st.warning("Gamma Break Zone Nearby – Watch for reflexive volatility.")
+            if row.get('containment_fragile'):
+                st.info("Weak Gamma Clusters Detected – Suppression may not hold.")
+            if row.get('macro_vol_risk'):
+                st.error("Macro Catalyst Risk Overlay Active – FOMC or earnings this week.")
 
     # Analytics
     if show_analytics:
