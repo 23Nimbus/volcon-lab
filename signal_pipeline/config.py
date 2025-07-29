@@ -3,8 +3,8 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-
 _REPO_ROOT = Path(__file__).resolve().parents[1]
+_loaded = False
 
 
 def load_config(path: str | os.PathLike | None = None) -> dict:
@@ -29,7 +29,6 @@ def load_config(path: str | os.PathLike | None = None) -> dict:
             config[key] = value
     return config
 
-_loaded = False
 
 def load_env(env_path: str | None = None) -> None:
     """Load environment variables from a .env file once."""
@@ -42,4 +41,3 @@ def load_env(env_path: str | None = None) -> None:
         env_path = root_dir / ".env"
     load_dotenv(env_path)
     _loaded = True
-
