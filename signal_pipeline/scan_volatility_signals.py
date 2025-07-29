@@ -11,6 +11,7 @@ import sys
 from typing import List, Dict, Tuple
 from .config import load_env, load_config
 from .gex_parser import parse_gex_comment
+from .config import load_config
 
 load_env()
 try:
