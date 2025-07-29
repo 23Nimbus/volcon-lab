@@ -9,6 +9,9 @@ import os
 import matplotlib.pyplot as plt
 import argparse
 import json
+from .config import load_config
+
+CONFIG = load_config()
 
 from sentiment_score import classify_sentiment
 
@@ -360,7 +363,7 @@ def export_excel(ticker):
         json.dump(stats, f, indent=2)
     print(f"Exported to {excel_path} and summary stats to {stats_path}")
 
-def fetch_news_sentiment(ticker):
+def fetch_news_sentiment(ticker, config: dict = CONFIG):
     """Fetch recent news and compute average sentiment polarity.
 
     The function attempts to use Finnhub if ``FINNHUB_API_KEY`` is set or
@@ -373,8 +376,8 @@ def fetch_news_sentiment(ticker):
         import datetime as _dt
 
         headlines = []
-        if os.environ.get("FINNHUB_API_KEY"):
-            key = os.environ["FINNHUB_API_KEY"]
+        if config.get("FINNHUB_API_KEY"):
+            key = config["FINNHUB_API_KEY"]
             to_d = _dt.date.today()
             from_d = to_d - _dt.timedelta(days=7)
             url = (
@@ -385,8 +388,8 @@ def fetch_news_sentiment(ticker):
             resp.raise_for_status()
             articles = resp.json()
             headlines = [a.get("headline", "") for a in articles]
-        elif os.environ.get("NEWSAPI_KEY"):
-            key = os.environ["NEWSAPI_KEY"]
+        elif config.get("NEWSAPI_KEY"):
+            key = config["NEWSAPI_KEY"]
             url = (
                 f"https://newsapi.org/v2/everything?q={ticker}&pageSize=10"
                 f"&sortBy=publishedAt&apiKey={key}"
@@ -396,7 +399,7 @@ def fetch_news_sentiment(ticker):
             data = resp.json()
             headlines = [a.get("title", "") for a in data.get("articles", [])]
         else:
-            print("No FINNHUB_API_KEY or NEWSAPI_KEY set in environment.")
+            print("No FINNHUB_API_KEY or NEWSAPI_KEY configured.")
             return None
 
         if not headlines:
@@ -412,7 +415,7 @@ def fetch_news_sentiment(ticker):
         print(f"News sentiment fetch error: {e}")
         return None
 
-def load_config(config_path='volcon_config.json'):
+def load_json_config(config_path='volcon_config.json'):
     if os.path.exists(config_path):
         with open(config_path) as f:
             return json.load(f)
@@ -527,13 +530,13 @@ def main():
                     "XRT": {"sector": "ETF", "exchange": "NYSEARCA"}
                 },
                 "api_keys": {
-                    "FINNHUB_API_KEY": os.environ.get('FINNHUB_API_KEY', '')
+                    "FINNHUB_API_KEY": CONFIG.get('FINNHUB_API_KEY', '')
                 }
             }
             with open(args.config, 'w') as f:
                 json.dump(default_config, f, indent=2)
             print(f"Auto-generated config file: {args.config}")
-        config = load_config(args.config)
+        config = load_json_config(args.config)
         validate_config(config)
         weights = config.get('weights')
         tickers = config.get('tickers')
@@ -561,11 +564,11 @@ def main():
             send_email_alert(
                 subject=f"High Vol Container Score Alert: {args.ticker}",
                 body=str(result),
-                to_email=os.environ.get('ALERT_EMAIL', ''),
-                smtp_server=os.environ.get('SMTP_SERVER', ''),
-                smtp_port=int(os.environ.get('SMTP_PORT', 465)),
-                smtp_user=os.environ.get('SMTP_USER', ''),
-                smtp_pass=os.environ.get('SMTP_PASS', '')
+                to_email=CONFIG.get('ALERT_EMAIL', ''),
+                smtp_server=CONFIG.get('SMTP_SERVER', ''),
+                smtp_port=int(CONFIG.get('SMTP_PORT', 465)),
+                smtp_user=CONFIG.get('SMTP_USER', ''),
+                smtp_pass=CONFIG.get('SMTP_PASS', '')
             )
     if args.batch:
         print(batch_score(args.batch, weights))

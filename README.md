@@ -21,6 +21,12 @@ cp signal_pipeline/.env.template .env
 
 Keys are required for Reddit (and optional market data providers).
 
+### Unified Configuration
+
+Runtime settings are loaded via `signal_pipeline.config.load_config()` which
+combines variables defined in `.env` with defaults from `config.json` located at
+the repository root. Values in the environment always take precedence.
+
 ## Quick Start
 
 Run the scoring scripts sequentially:

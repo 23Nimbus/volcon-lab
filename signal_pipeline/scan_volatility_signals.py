@@ -10,6 +10,7 @@ import argparse
 import sys
 from typing import List, Dict, Tuple
 from .gex_parser import parse_gex_comment
+from .config import load_config
 try:
     from textblob import TextBlob
     TEXTBLOB_AVAILABLE = True
@@ -19,24 +20,21 @@ except ImportError:
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
 
 # --- Config ---
-def load_config():
-    config = {
-        "TICKERS": os.environ.get("TICKERS", "GME,AMC").split(","),
-        "ETF_TICKER": os.environ.get("ETF_TICKER", "XRT"),
-        "REGSHO_LIST_URL": os.environ.get("REGSHO_LIST_URL", "https://example.com/regsho/latest.txt"),
-        # Each ticker has its own reddit dump folder by default
-        "SENTIMENT_PATH_TEMPLATE": os.environ.get("SENTIMENT_PATH_TEMPLATE", "reddit/{ticker}/{date}/posts.json"),
-        "ALERTS_DIR": os.environ.get("ALERTS_DIR", "alerts"),
+def runtime_config(path: str | None = None) -> Dict:
+    """Return merged configuration for this module."""
+    cfg = load_config(path)
+    defaults = {
+        "TICKERS": ["GME", "AMC"],
+        "ETF_TICKER": "XRT",
+        "REGSHO_LIST_URL": "https://example.com/regsho/latest.txt",
+        "SENTIMENT_PATH_TEMPLATE": "reddit/{ticker}/{date}/posts.json",
+        "ALERTS_DIR": "alerts",
     }
-    # Optionally load from config.json
-    if os.path.exists("config.json"):
-        try:
-            with open("config.json") as f:
-                file_cfg = json.load(f)
-            config.update(file_cfg)
-        except Exception as e:
-            logging.warning(f"Failed to load config.json: {e}")
-    return config
+    for k, v in defaults.items():
+        cfg.setdefault(k, v)
+    if isinstance(cfg.get("TICKERS"), str):
+        cfg["TICKERS"] = [t.strip() for t in cfg["TICKERS"].split(",") if t.strip()]
+    return cfg
 
 def load_sentiment_score(ticker: str = "GME", date: datetime.date = None, sentiment_path_template: str = "reddit/{ticker}/{date}/posts.json") -> float:
     """Load sentiment score for a ticker from JSON file. Uses keyword and TextBlob scoring if available."""
@@ -210,7 +208,7 @@ def scan_volatility_signals(
 
 # --- CLI Run ---
 def main():
-    config = load_config()
+    config = runtime_config()
     parser = argparse.ArgumentParser(description="Scan volatility signals for tickers.")
     parser.add_argument("--tickers", type=str, help="Comma-separated tickers", default=','.join(config["TICKERS"]))
     parser.add_argument("--date", type=str, help="Date in YYYY-MM-DD format", default=None)
