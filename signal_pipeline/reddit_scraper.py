@@ -2,7 +2,7 @@ import os
 import json
 import praw
 from datetime import datetime
-from dotenv import load_dotenv
+from .config import load_env
 import logging
 import argparse
 import time
@@ -22,8 +22,8 @@ logging.basicConfig(
     handlers=[logging.FileHandler("reddit_scraper.log"), logging.StreamHandler()]
 )
 
-# Load environment variables from .env
-load_dotenv()
+# Load environment variables
+load_env()
 
 DEFAULT_SUBREDDITS = ['wallstreetbets', 'GME', 'Superstonk']
 DEFAULT_LIMIT = 100

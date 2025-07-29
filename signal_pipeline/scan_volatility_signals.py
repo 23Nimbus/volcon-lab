@@ -9,7 +9,10 @@ import logging
 import argparse
 import sys
 from typing import List, Dict, Tuple
+from .config import load_env
 from .gex_parser import parse_gex_comment
+
+load_env()
 try:
     from textblob import TextBlob
     TEXTBLOB_AVAILABLE = True
