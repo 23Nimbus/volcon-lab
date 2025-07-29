@@ -1,14 +1,3 @@
-"""Unified configuration utilities.
-
-This module provides helpers to load runtime settings for the
-VolCon pipeline. ``load_config`` first loads variables from a
-``.env`` file and then merges them with defaults from ``config.json``
-located at the project root. Environment variables always override
-the JSON values.
-"""
-
-from __future__ import annotations
-
 import json
 import os
 from pathlib import Path
@@ -51,3 +40,16 @@ def load_config(path: str | os.PathLike | None = None) -> dict:
         if key.isupper():
             config[key] = value
     return config
+  
+  _loaded = False
+
+def load_env(env_path: str | None = None) -> None:
+    """Load environment variables from a .env file once."""
+    global _loaded
+    if _loaded:
+        return
+    if env_path is None:
+        root_dir = Path(__file__).resolve().parents[1]
+        env_path = root_dir / ".env"
+    load_dotenv(env_path)
+    _loaded = True

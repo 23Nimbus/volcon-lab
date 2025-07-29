@@ -1,5 +1,3 @@
-"""Reddit scraping utilities used by the VolCon pipeline."""
-
 import os
 import json
 import praw
@@ -10,13 +8,8 @@ import time
 from typing import List, Dict, Any, Optional
 from tqdm import tqdm
 import yaml
-
 from .config import load_env, load_config
-
-# Load environment and config once
-load_env()
-CONFIG = load_config()
-
+from .utils import setup_logging
 try:
     from sentiment_score import classify_sentiment
     SENTIMENT_AVAILABLE = True
@@ -24,20 +17,13 @@ except ImportError:
     SENTIMENT_AVAILABLE = False
 
 # --- Logging setup ---
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s %(levelname)s: %(message)s',
-    handlers=[logging.FileHandler("reddit_scraper.log"), logging.StreamHandler()]
-)
+setup_logging("reddit_scraper.log")
 
-gqur1y-codex/refactor-signal_pipeline-config-and-update-imports
-# Load configuration (env values override defaults)
-
-load_env()
-CONFIG = load_config()
-CONFIG = load_config()
 # Load environment variables
 load_env()
+
+# Load configuration (env values override defaults)
+CONFIG = load_config()
 
 DEFAULT_SUBREDDITS = ['wallstreetbets', 'GME', 'Superstonk']
 DEFAULT_LIMIT = 100

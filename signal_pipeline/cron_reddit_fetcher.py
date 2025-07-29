@@ -5,6 +5,7 @@ import os
 from .config import load_config
 import sys
 import logging
+from .utils import setup_logging
 from datetime import datetime
 from .config import load_env
 
@@ -15,11 +16,7 @@ CONFIG = load_config()
 SCHEDULE_TIME = CONFIG.get("REDDIT_FETCH_TIME", "08:30")
 MAX_RETRIES = int(CONFIG.get("REDDIT_FETCH_MAX_RETRIES", 3))
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s %(levelname)s: %(message)s',
-    handlers=[logging.FileHandler("cron_reddit_fetcher.log"), logging.StreamHandler()]
-)
+setup_logging("cron_reddit_fetcher.log")
 
 def notify(msg, level="info"):
     # Placeholder for notification logic (e.g., email, Slack)

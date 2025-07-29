@@ -1,5 +1,3 @@
-"""Compute the Vol Container Score for configured tickers."""
-
 import yfinance as yf
 import time
 import smtplib
@@ -10,13 +8,16 @@ import datetime
 import os
 import matplotlib.pyplot as plt
 import argparse
-import jsonfrom .config import load_env, load_config
+import json
+from .config import load_config, load_env
 
-# Load environment and configuration once
-load_env()
 CONFIG = load_config()
+load_env()
 
 from sentiment_score import classify_sentiment
+
+load_env()
+
 from functools import lru_cache
 
 

@@ -5,13 +5,14 @@ import pandas as pd
 import os
 from datetime import datetime
 import logging
+from .utils import setup_logging
 
 
 SIGNAL_DIR = "data"
 DEFAULT_THRESHOLDS = {"high": 0.75, "low": 0.4}
 LOG_PATH = "logs/vol_signal_layer.log"
 os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
-logging.basicConfig(filename=LOG_PATH, level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+setup_logging(LOG_PATH)
 
 def load_latest_score(ticker='GME'):
     try:
