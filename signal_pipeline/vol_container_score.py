@@ -1,3 +1,5 @@
+"""Compute the Vol Container Score for configured tickers."""
+
 import yfinance as yf
 import time
 import smtplib
@@ -8,21 +10,15 @@ import datetime
 import os
 import matplotlib.pyplot as plt
 import argparse
-import json
+import jsonfrom .config import load_env, load_config
 
-from .config import load_config, load_env
-from .config import load_env, load_config
-from .config import load_config
-
-CONFIG = load_config()
-from .config import load_env
-from sentiment_score import classify_sentiment
-
-CONFIG = load_config()
+# Load environment and configuration once
 load_env()
 CONFIG = load_config()
 
+from sentiment_score import classify_sentiment
 from functools import lru_cache
+
 
 @lru_cache(maxsize=32)
 def get_iv_proxy(ticker, retries=3, delay=2):

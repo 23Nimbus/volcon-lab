@@ -1,3 +1,5 @@
+"""Utilities for scanning daily volatility signals."""
+
 import yfinance as yf
 import pandas as pd
 import numpy as np
@@ -9,11 +11,13 @@ import logging
 import argparse
 import sys
 from typing import List, Dict, Tuple
-from .config import load_env, load_config
-from .gex_parser import parse_gex_comment
-from .config import load_config
 
+from .gex_parser import parse_gex_comment
+from .config import load_env, load_config
+
+# Ensure environment variables are loaded before accessing config
 load_env()
+
 try:
     from textblob import TextBlob
     TEXTBLOB_AVAILABLE = True
