@@ -11,7 +11,6 @@ from .utils import setup_logging
 SIGNAL_DIR = "data"
 DEFAULT_THRESHOLDS = {"high": 0.75, "low": 0.4}
 LOG_PATH = "logs/vol_signal_layer.log"
-os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
 setup_logging(LOG_PATH)
 
 def load_latest_score(ticker='GME'):
