@@ -5,13 +5,14 @@ import pandas as pd
 import os
 from datetime import datetime
 import logging
+from .utils import setup_logging
 
 
 SIGNAL_DIR = "data"
 DEFAULT_THRESHOLDS = {"high": 0.75, "low": 0.4}
 LOG_PATH = "logs/vol_signal_layer.log"
 os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
-logging.basicConfig(filename=LOG_PATH, level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+setup_logging(LOG_PATH)
 
 def load_latest_score(ticker='GME'):
     try:
@@ -105,17 +106,11 @@ def export_alerts(ticker, out_path=None, thresholds=None, fmt="json"):
     logging.info(f"Exported alerts to {out_path}")
     print(f"Exported alerts to {out_path}")
 def run_unit_tests():
-    print("Running unit tests...")
-    # Test load_latest_score
-    assert load_latest_score("GME") is None or isinstance(load_latest_score("GME"), dict)
-    # Test evaluate_signal
-    dummy = {"vol_container_score": 0.8}
-    res = evaluate_signal(dummy)
-    assert "score" in res and "alerts" in res
-    # Test batch_evaluate
-    batch = batch_evaluate(["GME", "AMC"])
-    assert isinstance(batch, dict)
-    print("All basic tests passed.")
+    """Execute the project's pytest suite."""
+    import pytest
+    test_dir = os.path.join(os.path.dirname(__file__), "..", "tests")
+    print("Running unit tests via pytest...")
+    pytest.main([test_dir])
 def run_api_server(host="127.0.0.1", port=5000):
     try:
         from flask import Flask, request, jsonify
