@@ -23,6 +23,16 @@ This folder contains the operational VolCon signal layer for detecting volatilit
    python vol_container_score.py
    ```
 
+### Custom Weights
+
+You can override feature weights directly from the command line.  For example,
+to give IV rank more influence and lower the weight of the RV-IV spread:
+
+```bash
+python vol_container_score.py --ticker GME \
+    --weight_iv_rank 0.4 --weight_rv_iv_spread 0.1
+```
+
 ## Dashboard
 
 Run with:

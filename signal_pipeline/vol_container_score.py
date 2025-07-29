@@ -485,6 +485,11 @@ def main():
     parser.add_argument('--help_all', action='store_true', help='Show help for all features')
     parser.add_argument('--email_alert', action='store_true', help='Send email alert for high scores')
     parser.add_argument('--pdf_report', type=str, help='Generate PDF report for ticker')
+    parser.add_argument('--weight_iv_rank', type=float, help='Override weight for IV rank feature')
+    parser.add_argument('--weight_oi_conc', type=float, help='Override weight for open interest concentration')
+    parser.add_argument('--weight_sentiment', type=float, help='Override weight for sentiment score')
+    parser.add_argument('--weight_ov_ratio', type=float, help='Override weight for option volume ratio')
+    parser.add_argument('--weight_rv_iv_spread', type=float, help='Override weight for RV-IV spread')
     args = parser.parse_args()
 
     if args.help_all:
@@ -502,6 +507,11 @@ def main():
         --dashboard : Launch interactive Streamlit dashboard
         --email_alert : Send email alert for high scores
         --pdf_report [TICKER] : Generate PDF report for ticker
+        --weight_iv_rank [FLOAT] : Override IV rank weight
+        --weight_oi_conc [FLOAT] : Override OI concentration weight
+        --weight_sentiment [FLOAT] : Override sentiment score weight
+        --weight_ov_ratio [FLOAT] : Override option volume ratio weight
+        --weight_rv_iv_spread [FLOAT] : Override RV-IV spread weight
         --help_all : Show this help message
         """)
         return
@@ -542,6 +552,22 @@ def main():
     else:
         metadata = {}
         api_keys = {}
+
+    # Apply CLI weight overrides if provided
+    cli_weights = {}
+    if args.weight_iv_rank is not None:
+        cli_weights['iv_rank'] = args.weight_iv_rank
+    if args.weight_oi_conc is not None:
+        cli_weights['oi_concentration'] = args.weight_oi_conc
+    if args.weight_sentiment is not None:
+        cli_weights['sentiment_score'] = args.weight_sentiment
+    if args.weight_ov_ratio is not None:
+        cli_weights['ov_ratio'] = args.weight_ov_ratio
+    if args.weight_rv_iv_spread is not None:
+        cli_weights['rv_iv_spread'] = args.weight_rv_iv_spread
+    if cli_weights:
+        weights = weights.copy() if weights else {}
+        weights.update(cli_weights)
 
     if args.dashboard:
         try:
