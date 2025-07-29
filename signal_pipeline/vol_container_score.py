@@ -11,6 +11,8 @@ from .scoring import (
     validate_config,
     send_email_alert,
     generate_pdf_report,
+    calculate_iv_rank,
+    calculate_score,
 )
 from .scoring import CONFIG
 
