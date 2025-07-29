@@ -10,8 +10,11 @@ import time
 from typing import List, Dict, Any, Optional
 from tqdm import tqdm
 import yaml
-from .config import load_config
 
+from .config import load_env, load_config
+
+# Load environment and config once
+load_env()
 CONFIG = load_config()
 
 try:
@@ -27,6 +30,14 @@ logging.basicConfig(
     handlers=[logging.FileHandler("reddit_scraper.log"), logging.StreamHandler()]
 )
 
+gqur1y-codex/refactor-signal_pipeline-config-and-update-imports
+# Load configuration (env values override defaults)
+
+load_env()
+CONFIG = load_config()
+CONFIG = load_config()
+# Load environment variables
+load_env()
 
 DEFAULT_SUBREDDITS = ['wallstreetbets', 'GME', 'Superstonk']
 DEFAULT_LIMIT = 100

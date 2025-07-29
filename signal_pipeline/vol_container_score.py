@@ -10,14 +10,15 @@ import datetime
 import os
 import matplotlib.pyplot as plt
 import argparse
-import json
-from .config import load_config
+import jsonfrom .config import load_env, load_config
 
+# Load environment and configuration once
+load_env()
 CONFIG = load_config()
 
 from sentiment_score import classify_sentiment
-
 from functools import lru_cache
+
 
 @lru_cache(maxsize=32)
 def get_iv_proxy(ticker, retries=3, delay=2):
