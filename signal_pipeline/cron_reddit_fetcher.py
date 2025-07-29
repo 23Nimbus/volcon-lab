@@ -5,6 +5,9 @@ import os
 import sys
 import logging
 from datetime import datetime
+from .config import load_env
+
+load_env()
 
 # --- Configurable schedule time ---
 SCHEDULE_TIME = os.environ.get("REDDIT_FETCH_TIME", "08:30")
