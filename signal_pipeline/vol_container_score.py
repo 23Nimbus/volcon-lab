@@ -1,3 +1,5 @@
+"""Compute the Vol Container Score for configured tickers."""
+
 import yfinance as yf
 import time
 import smtplib
@@ -9,17 +11,11 @@ import os
 import matplotlib.pyplot as plt
 import argparse
 import json
-codex/implement-unified-configuration-loader
 from .config import load_config
 
 CONFIG = load_config()
-=======
-from .config import load_env
-main
 
 from sentiment_score import classify_sentiment
-
-load_env()
 
 from functools import lru_cache
 
