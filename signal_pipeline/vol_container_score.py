@@ -20,6 +20,7 @@ load_env()
 
 from functools import lru_cache
 
+
 @lru_cache(maxsize=32)
 def get_iv_proxy(ticker, retries=3, delay=2):
     for attempt in range(retries):
