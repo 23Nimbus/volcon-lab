@@ -29,8 +29,6 @@ def load_config(path: str | os.PathLike | None = None) -> dict:
             config[key] = value
     return config
 
-
-
 def load_env(env_path: str | None = None) -> None:
     """Load environment variables from a .env file once."""
     global _loaded
