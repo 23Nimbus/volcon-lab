@@ -5,7 +5,10 @@ This folder contains the operational VolCon signal layer for detecting volatilit
 
 ## Structure
 
-- `vol_container_score.py`: Computes the Vol Container Score based on IV rank, sentiment, OI concentration, etc.
+- `vol_container_score.py`: CLI entry point for scoring.
+- `data_ingestion.py`: Helpers for IV, RV, volume and OI metrics.
+- `sentiment_processing.py`: Sentiment score calculations.
+- `scoring.py`: Core scoring functions used by the CLI.
 - `sentiment_score.py`: NLP classification for suppression vs breakdown language.
 - `reddit_scraper.py`: Pulls Reddit data from key subreddits.
 - `ingest_sentiment.py`: Scores Reddit posts using `classify_sentiment()`.

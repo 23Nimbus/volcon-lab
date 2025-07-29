@@ -9,9 +9,9 @@ import logging
 import argparse
 import sys
 from typing import List, Dict, Tuple
-from .config import load_env, load_config
+from .config import load_env
 from .gex_parser import parse_gex_comment
-from .utils import setup_logging
+from .config import load_config
 
 load_env()
 try:
@@ -20,7 +20,7 @@ try:
 except ImportError:
     TEXTBLOB_AVAILABLE = False
 
-setup_logging("scan_volatility_signals.log")
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
 
 # --- Config ---
 def runtime_config(path: str | None = None) -> Dict:
