@@ -10,6 +10,10 @@ import matplotlib.pyplot as plt
 import argparse
 import json
 from .config import load_env, load_config
+from .config import load_config
+
+CONFIG = load_config()
+from .config import load_env
 from sentiment_score import classify_sentiment
 
 load_env()

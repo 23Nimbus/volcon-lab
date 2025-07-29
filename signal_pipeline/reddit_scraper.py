@@ -2,7 +2,9 @@ import os
 import json
 import praw
 from datetime import datetime
+
 from .config import load_env, load_config
+from .config import load_env
 import logging
 import argparse
 import time
@@ -23,8 +25,13 @@ logging.basicConfig(
 )
 
 # Load configuration (env values override defaults)
+
 load_env()
 CONFIG = load_config()
+=======
+CONFIG = load_config()
+# Load environment variables
+load_env()
 
 DEFAULT_SUBREDDITS = ['wallstreetbets', 'GME', 'Superstonk']
 DEFAULT_LIMIT = 100
