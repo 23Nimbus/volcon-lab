@@ -6,6 +6,9 @@ from .config import load_config
 import sys
 import logging
 from datetime import datetime
+from .config import load_env
+
+load_env()
 
 # --- Configurable schedule time ---
 CONFIG = load_config()

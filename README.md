@@ -19,6 +19,9 @@ cp signal_pipeline/.env.template .env
 # edit .env and supply credentials
 ```
 
+The resulting `.env` file must live in the project root (same directory as this
+README) so all scripts can load your environment variables automatically.
+
 Keys are required for Reddit (and optional market data providers).
 
 ### Unified Configuration

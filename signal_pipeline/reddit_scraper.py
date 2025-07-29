@@ -2,6 +2,10 @@ import os
 import json
 import praw
 from datetime import datetime
+ codex/implement-unified-configuration-loader
+=======
+from .config import load_env
+ main
 import logging
 import argparse
 import time
@@ -22,8 +26,13 @@ logging.basicConfig(
     handlers=[logging.FileHandler("reddit_scraper.log"), logging.StreamHandler()]
 )
 
+codex/implement-unified-configuration-loader
 # Load configuration (env values override defaults)
 CONFIG = load_config()
+=======
+# Load environment variables
+load_env()
+main
 
 DEFAULT_SUBREDDITS = ['wallstreetbets', 'GME', 'Superstonk']
 DEFAULT_LIMIT = 100
