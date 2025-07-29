@@ -9,13 +9,10 @@ import os
 import matplotlib.pyplot as plt
 import argparse
 import json
-codex/implement-unified-configuration-loader
-from .config import load_config
+from .config import load_config, load_env
 
 CONFIG = load_config()
-=======
-from .config import load_env
-main
+load_env()
 
 from sentiment_score import classify_sentiment
 

@@ -2,17 +2,14 @@ import json
 import os
 import argparse
 import logging
+from .utils import setup_logging
 from datetime import datetime
 from sentiment_score import classify_sentiment
 import statistics
 from typing import Optional, List, Dict, Any
 
 # --- Logging setup ---
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s %(levelname)s: %(message)s',
-    handlers=[logging.FileHandler("ingest_sentiment.log"), logging.StreamHandler()]
-)
+setup_logging("ingest_sentiment.log")
 
 def safe_load_json(path: str, retries: int = 3, delay: float = 2.0) -> Optional[List[Dict[str, Any]]]:
     """Safely load JSON file with retry logic."""

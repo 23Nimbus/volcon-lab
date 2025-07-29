@@ -47,7 +47,6 @@ streamlit run signal_pipeline/backtest_runner.py
 ```
 
 This launches an interactive dashboard to review the Vol Container Score timeline.
-codex/add-test-running-instructions-to-readme
 
 ## Running Tests
 
