@@ -1,0 +1,19 @@
+{
+  "REDDIT_CLIENT_ID": "",
+  "REDDIT_CLIENT_SECRET": "",
+  "REDDIT_USER_AGENT": "volcon-lab",
+  "FINNHUB_API_KEY": "",
+  "NEWSAPI_KEY": "",
+  "ALERT_EMAIL": "",
+  "SMTP_SERVER": "smtp.example.com",
+  "SMTP_PORT": 465,
+  "SMTP_USER": "",
+  "SMTP_PASS": "",
+  "TICKERS": ["GME", "AMC"],
+  "ETF_TICKER": "XRT",
+  "REGSHO_LIST_URL": "https://example.com/regsho/latest.txt",
+  "SENTIMENT_PATH_TEMPLATE": "reddit/{ticker}/{date}/posts.json",
+  "ALERTS_DIR": "alerts",
+  "REDDIT_FETCH_TIME": "08:30",
+  "REDDIT_FETCH_MAX_RETRIES": 3
+}

@@ -2,6 +2,7 @@ import schedule
 import time
 import subprocess
 import os
+from .config import load_config
 import sys
 import logging
 from datetime import datetime
@@ -10,8 +11,9 @@ from .config import load_env
 load_env()
 
 # --- Configurable schedule time ---
-SCHEDULE_TIME = os.environ.get("REDDIT_FETCH_TIME", "08:30")
-MAX_RETRIES = int(os.environ.get("REDDIT_FETCH_MAX_RETRIES", 3))
+CONFIG = load_config()
+SCHEDULE_TIME = CONFIG.get("REDDIT_FETCH_TIME", "08:30")
+MAX_RETRIES = int(CONFIG.get("REDDIT_FETCH_MAX_RETRIES", 3))
 
 logging.basicConfig(
     level=logging.INFO,

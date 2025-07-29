@@ -2,13 +2,17 @@ import os
 import json
 import praw
 from datetime import datetime
+ codex/implement-unified-configuration-loader
+=======
 from .config import load_env
+ main
 import logging
 import argparse
 import time
 from typing import List, Dict, Any, Optional
 from tqdm import tqdm
 import yaml
+from .config import load_config
 try:
     from sentiment_score import classify_sentiment
     SENTIMENT_AVAILABLE = True
@@ -22,25 +26,31 @@ logging.basicConfig(
     handlers=[logging.FileHandler("reddit_scraper.log"), logging.StreamHandler()]
 )
 
+codex/implement-unified-configuration-loader
+# Load configuration (env values override defaults)
+CONFIG = load_config()
+=======
 # Load environment variables
 load_env()
+main
 
 DEFAULT_SUBREDDITS = ['wallstreetbets', 'GME', 'Superstonk']
 DEFAULT_LIMIT = 100
 TICKER_LIST = ['GME', 'AMC', 'TSLA', 'AAPL', 'MSFT', 'NVDA', 'XRT', 'SPY', 'QQQ']  # Example tickers
 
-REDDIT_CLIENT_ID = os.getenv("REDDIT_CLIENT_ID")
-REDDIT_CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET")
-REDDIT_USER_AGENT = os.getenv("REDDIT_USER_AGENT")
+REDDIT_CLIENT_ID = CONFIG.get("REDDIT_CLIENT_ID")
+REDDIT_CLIENT_SECRET = CONFIG.get("REDDIT_CLIENT_SECRET")
+REDDIT_USER_AGENT = CONFIG.get("REDDIT_USER_AGENT")
 
 
-def validate_credentials() -> bool:
+def validate_credentials(cfg: dict = CONFIG) -> bool:
+    """Return True if Reddit credentials are present in cfg."""
     missing = []
-    if not REDDIT_CLIENT_ID:
+    if not cfg.get("REDDIT_CLIENT_ID"):
         missing.append("REDDIT_CLIENT_ID")
-    if not REDDIT_CLIENT_SECRET:
+    if not cfg.get("REDDIT_CLIENT_SECRET"):
         missing.append("REDDIT_CLIENT_SECRET")
-    if not REDDIT_USER_AGENT:
+    if not cfg.get("REDDIT_USER_AGENT"):
         missing.append("REDDIT_USER_AGENT")
     if missing:
         logging.error(f"Missing Reddit API credentials: {', '.join(missing)}")
@@ -80,11 +90,17 @@ def enrich_post(data, tickers):
             data['sentiment_label'] = None
     return data
 
-def log_command(args):
+def log_command(args, cfg: dict = CONFIG):
+    """Log CLI arguments and active credentials."""
     logging.info(f"Command args: {args}")
-    logging.info(f"Environment: CLIENT_ID={REDDIT_CLIENT_ID}, CLIENT_SECRET={'***' if REDDIT_CLIENT_SECRET else None}, USER_AGENT={REDDIT_USER_AGENT}")
+    logging.info(
+        "Environment: CLIENT_ID=%s, CLIENT_SECRET=%s, USER_AGENT=%s",
+        cfg.get("REDDIT_CLIENT_ID"),
+        "***" if cfg.get("REDDIT_CLIENT_SECRET") else None,
+        cfg.get("REDDIT_USER_AGENT"),
+    )
 
-def load_config(config_path):
+def load_scraper_config(config_path):
     if config_path and os.path.exists(config_path):
         with open(config_path, 'r') as f:
             if config_path.endswith('.yaml') or config_path.endswith('.yml'):
@@ -93,19 +109,29 @@ def load_config(config_path):
                 return json.load(f)
     return None
 
-def fetch_posts(subreddits: List[str], limit: int, save_dir: str, retries: int = 3, delay: float = 5.0,
-                min_score: int = 0, exclude_stickied: bool = True, exclude_removed: bool = True,
-                keywords: Optional[List[str]] = None, tickers: Optional[List[str]] = None) -> int:
+def fetch_posts(
+    subreddits: List[str],
+    limit: int,
+    save_dir: str,
+    retries: int = 3,
+    delay: float = 5.0,
+    min_score: int = 0,
+    exclude_stickied: bool = True,
+    exclude_removed: bool = True,
+    keywords: Optional[List[str]] = None,
+    tickers: Optional[List[str]] = None,
+    config: dict = CONFIG,
+) -> int:
     """
     Fetch posts from given subreddits, save to JSON, and return number of posts saved.
     """
-    if not validate_credentials():
+    if not validate_credentials(config):
         return 0
     try:
         reddit = praw.Reddit(
-            client_id=REDDIT_CLIENT_ID,
-            client_secret=REDDIT_CLIENT_SECRET,
-            user_agent=REDDIT_USER_AGENT
+            client_id=config.get("REDDIT_CLIENT_ID"),
+            client_secret=config.get("REDDIT_CLIENT_SECRET"),
+            user_agent=config.get("REDDIT_USER_AGENT"),
         )
     except Exception as e:
         logging.error(f"Error initializing PRAW: {e}")
@@ -186,7 +212,7 @@ def main():
     args = parser.parse_args()
 
     # Config file support
-    config = load_config(args.config)
+    config = load_scraper_config(args.config)
     if config:
         date = config.get('date', args.date)
         subreddits = config.get('subreddits', args.subreddits)
@@ -214,7 +240,7 @@ def main():
         keywords = [k.strip() for k in args.keywords.split(',')] if args.keywords else None
         tickers = [t.strip() for t in args.tickers.split(',')] if args.tickers else None
 
-    log_command(args)
+    log_command(args, CONFIG)
     n_posts = fetch_posts(
         subreddits,
         limit,
@@ -223,7 +249,8 @@ def main():
         exclude_stickied=exclude_stickied,
         exclude_removed=exclude_removed,
         keywords=keywords,
-        tickers=tickers
+        tickers=tickers,
+        config=CONFIG,
     )
     print(f"✅ Saved {n_posts} posts to {save_dir}/posts.json")
 
