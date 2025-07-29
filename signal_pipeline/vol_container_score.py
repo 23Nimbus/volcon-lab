@@ -9,11 +9,18 @@ import os
 import matplotlib.pyplot as plt
 import argparse
 import json
+
 from .config import load_config, load_env
+from .config import load_env, load_config
+from .config import load_config
+
+CONFIG = load_config()
+from .config import load_env
 from sentiment_score import classify_sentiment
 
 CONFIG = load_config()
 load_env()
+CONFIG = load_config()
 
 from functools import lru_cache
 
