@@ -9,14 +9,10 @@ import logging
 import argparse
 import sys
 from typing import List, Dict, Tuple
-from .config import load_env
+from .config import load_env, load_config
 from .gex_parser import parse_gex_comment
-codex/implement-unified-configuration-loader
-from .config import load_config
-=======
 
 load_env()
-main
 try:
     from textblob import TextBlob
     TEXTBLOB_AVAILABLE = True
